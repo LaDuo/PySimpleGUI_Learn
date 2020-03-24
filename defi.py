@@ -9,8 +9,8 @@ import shutil
 import time
 import matplotlib.pyplot as plt
 from datetime import datetime
-# from subprocess import Popen, PIPE, STDOUT
 
+# from subprocess import Popen, PIPE, STDOUT
 
 
 # 此文件用于添加定义、变量
@@ -20,6 +20,7 @@ Av2_Input = Desktop + "\\Av2_Input"
 Av2_Output = Desktop + "\\Av2_Output"
 Analyze = Desktop + "\\Analyze"
 ALL = os.path.join(Analyze, 'ALL')
+dis = 8191
 # --------------------------------------------------------
 base_path1 = "D:\\test\\Release\\log\\"  # Av2数据所在路径     重点关注   Av2数据路径需要根据电脑配置更改
 # --------------------------------------------------------
@@ -55,6 +56,8 @@ prs1_path = os.path.join(Av2_Output, "prs1.txt")
 prs4_path = os.path.join(Av2_Output, "prs4.txt")
 pos_stub_path = os.path.join(Av2_Output, "pos_stub.txt")
 slope_path = os.path.join(Av2_Output, "slope.txt")
+curv_path = os.path.join(Av2_Output, "prs1.txt")
+pos_seg_path = os.path.join(Av2_Output, "pos_seg.txt")
 gcj_Inspector = "D:\\test\\old_dateBase\\DatabaseInspector\\gcj.csv"
 match_Inspector = "D:\\test\\old_dateBase\\DatabaseInspector\\match.csv"
 
@@ -111,4 +114,3 @@ slope_value = re.compile(r'value=\d+')
 slope_value1 = re.compile(r'value1=\d+')
 slope_ofs = re.compile(r'offs=\d+')
 slope_dis = re.compile(r'distance1=\d+')
-

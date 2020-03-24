@@ -1,5 +1,5 @@
 from defi import Desktop
-from defi import slope_path, dis
+from defi import curv_path, dis
 import os
 import re
 import matplotlib.pyplot as plt
@@ -28,7 +28,7 @@ def BANDWIDTH():
     slope_cyc = re.compile(r'cyclic=\d')
     slope_ofs = re.compile(r'offs=\d+')
     slope_ofs1 = re.compile(r'distance1=\d+')
-    with open(slope_path, 'r', encoding="utf-8") as f:
+    with open(curv_path, 'r', encoding="utf-8") as f:
         lir = f.readlines()
 
     lir_value = []
@@ -61,19 +61,15 @@ def BANDWIDTH():
         #     lir_value = []
         #     lir_ofs = []
     count = 0
-    tmp = len(lir_ofs)
-    for x in range(len(lir_ofs)):
-        if x == len(lir_ofs) - 1:
-            break
-        y = x + 1
-        while lir_ofs[y] < lir_ofs[x]:
-            count = 1
-            # print("count = ", count)
-            # print("lir_y  yyyyy", lir_ofs[y])
-            # print("lir_x  xxxxx", lir_ofs[x])
-            lir_ofs[y] += count * 8191
-            # print("lir_y ======", lir_ofs[y])
-        count = 0
+    # 根据offset画每一个curv点
+    # for x in range(len(lir_ofs)):
+    #     if x == len(lir_ofs) - 1:
+    #         break
+    #     y = x + 1
+    #     while lir_ofs[y] < lir_ofs[x]:
+    #         count = 1
+    #         lir_ofs[y] += count * 8191
+    #     count = 0
     points_num = 100
     times = int(len(lir_ofs) / points_num) + 1
     for i in range(times):
@@ -89,7 +85,7 @@ def ROBUSNESS():
     # slope_cyc = re.compile(r'cyclic=\d')
     slope_ofs = re.compile(r'offs=\d+')
 
-    with open(slope_path, 'r', encoding="utf-8") as f:
+    with open(curv_path, 'r', encoding="utf-8") as f:
         lir = f.readlines()
     lir_value = []
     lir_ofs = []

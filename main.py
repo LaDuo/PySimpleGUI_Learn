@@ -26,6 +26,7 @@ import merge_ehplog_info
 import Issue_report
 import delete_logs
 import show_slope
+import show_curv
 import set_env
 import copy_gcj_matchpt
 import judge_Get2_clicked
@@ -205,9 +206,9 @@ if __name__ == "__main__":
                          '1、提取matchpt和gcj', title='Undo', auto_close=True, auto_close_duration=3)
             if event in 'Special':
                 # sg.Popup('功能暂未开发', title='Special', auto_close=True, auto_close_duration=3)
-                path1 = Desktop + "\\a.csv"
-                gps_kml.csvtokml('test', Desktop, path1)
-                sg.Popup('GPS转换为kml成功', title='提示')
+                # path1 = Desktop + "\\a.csv"
+                # gps_kml.csvtokml('test', Desktop, path1)
+                sg.Popup('GPS转换为kml不成功', title='提示')
             if event in 'Normal':
                 sg.Popup('功能暂未开发', title='Normal', auto_close=True, auto_close_duration=3)
             # ----------------------------------- Get1 --------------------------------------
@@ -321,7 +322,7 @@ if __name__ == "__main__":
                     show_thread.start()
             # -------------------------------- Close show ------------------------------------
             elif event in 'Close show':
-                ps()
+                show_thread = threading.Thread(target=show_slope.close_show, args=())
             # ----------------------------------- About --------------------------------------
             if event in 'About...':
                 sg.Popup(

@@ -38,6 +38,7 @@ def DeleteInputLog():
     else:
         return False
 
+
 def DeleteOutputLog():
     # 删除Av_2Output 中的log
     Avlog3 = os.listdir(Av2_Output)
