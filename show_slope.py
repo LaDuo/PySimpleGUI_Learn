@@ -25,7 +25,6 @@ def pop_(lir_val = [], lir_ofs = [], lir_path = []):
     len_val = len(lir_val)
     len_ofs = len(lir_ofs)
     len_path = len(lir_path)
-#     print(len_val, len_ofs, len_path)
     cnt = 200
     for i in range(len_path):
         #最后一组数据画图
@@ -53,7 +52,6 @@ def pop_(lir_val = [], lir_ofs = [], lir_path = []):
                 tmp_val = []
                 tmp_ofs = []
             elif 0 < len_tmp <= 200:
-#                 print("-IN-")
                 draw(tmp_path[0], tmp_val[0:len_tmp], tmp_ofs[0:len_tmp])
                 tmp_path = []
                 tmp_val = []
@@ -69,13 +67,11 @@ def pop_(lir_val = [], lir_ofs = [], lir_path = []):
             tmp_path.append(lir_path[i])
             tmp_val.append(lir_val[i])
             tmp_ofs.append(lir_ofs[i])
-#             print("path id = ", lir_path[i], lir_path[j])
             len_tmp = len(tmp_val)
             len_1 = len_tmp/cnt
             len_2 = len_tmp%cnt
             if len_2 > 0:
                 len_1 = int(len_1) + 1
-#             print("len_1 = ", len_1)
             if len_tmp > 200:
                 points_num = 200
                 for j in range(len_1):
@@ -99,12 +95,9 @@ def pop_(lir_val = [], lir_ofs = [], lir_path = []):
     
 # 模式3：一次发送两个slope
 def BANDWIDTH():
-    flag = False
-    # print('-IN-')
     slope_path_id = re.compile(r'path=\d+')
     slope_value = re.compile(r'value=\d+')
     slope_value1 = re.compile(r'value1=\d+')
-    slope_cyc = re.compile(r'cyclic=\d')
     slope_ofs = re.compile(r'offs=\d+')
     slope_ofs1 = re.compile(r'distance1=\d+')
     with open(slope_path, 'r', encoding="utf-8") as f:
@@ -159,8 +152,6 @@ def BANDWIDTH():
 def ROBUSNESS():
     slope_path_id = re.compile(r'path=\d+')
     slope_value = re.compile(r'value=\d+')
-    # slope_value1 = re.compile(r'value1=\d+')
-    # slope_cyc = re.compile(r'cyclic=\d')
     slope_ofs = re.compile(r'offs=\d+')
 
     with open(slope_path, 'r', encoding="utf-8") as f:
