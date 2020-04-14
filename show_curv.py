@@ -1,5 +1,5 @@
 from defi import Desktop
-from defi import curv_path, dis
+from defi import slope_path, dis
 import os
 import re
 import matplotlib.pyplot as plt
@@ -15,9 +15,88 @@ def draw(path_id, value_list=[], offset_list=[]):
     for a, b in zip(offset_list, value_list):
         plt.text(a, b, b, ha='right', va='bottom', fontsize=10)
     plt.show()
-    # print('I am show slope')
 
 
+
+def pop_(lir_val = [], lir_ofs = [], lir_path = []):
+    tmp_path = []
+    tmp_val = []
+    tmp_ofs = []
+    len_val = len(lir_val)
+    len_ofs = len(lir_ofs)
+    len_path = len(lir_path)
+#     print(len_val, len_ofs, len_path)
+    cnt = 200
+    for i in range(len_path):
+        #最后一组数据画图
+        if i == len_path - 1:
+            print("IN")
+            len_tmp = len(tmp_val)
+            print("len_tmp = ", len_tmp)
+            len_1 = len_tmp/cnt
+            len_2 = len_tmp%cnt
+            print("len_1 = ", len_1)
+            print("len_2 = ", len_2)
+            if len_2 > 0 and len_2 != len_tmp:
+                len_1 = int(len_1) + 1
+            elif len_2 == len_tmp:
+                len_1 = 1
+            if len_tmp > 200:
+                points_num = 200
+                for j in range(len_1):
+                    s, e = j * points_num, (j + 1) * points_num
+                    if e <= len_tmp:
+                        draw(tmp_path[0], tmp_val[s:e], tmp_ofs[s:e])
+                    else:
+                        draw(tmp_path[0], tmp_val[s:len_tmp], tmp_ofs[s:len_tmp])
+                tmp_path = []
+                tmp_val = []
+                tmp_ofs = []
+            elif 0 < len_tmp <= 200:
+#                 print("-IN-")
+                draw(tmp_path[0], tmp_val[0:len_tmp], tmp_ofs[0:len_tmp])
+                tmp_path = []
+                tmp_val = []
+                tmp_ofs = []
+            break
+        
+        j = i + 1
+        if lir_path[i] == lir_path[j]:
+            tmp_path.append(lir_path[i])
+            tmp_val.append(lir_val[i])
+            tmp_ofs.append(lir_ofs[i])
+        elif lir_path[i] != lir_path[j]:
+            tmp_path.append(lir_path[i])
+            tmp_val.append(lir_val[i])
+            tmp_ofs.append(lir_ofs[i])
+#             print("path id = ", lir_path[i], lir_path[j])
+            len_tmp = len(tmp_val)
+            len_1 = len_tmp/cnt
+            len_2 = len_tmp%cnt
+            if len_2 > 0:
+                len_1 = int(len_1) + 1
+#             print("len_1 = ", len_1)
+            if len_tmp > 200:
+                points_num = 200
+                for j in range(len_1):
+                    s, e = j * points_num, (j + 1) * points_num
+                    if e <= len_tmp:
+                        draw(tmp_path[0], tmp_val[s:e], tmp_ofs[s:e])
+                    else:
+                        draw(tmp_path[0], tmp_val[s:len_tmp], tmp_ofs[s:len_tmp])
+                tmp_path = []
+                tmp_val = []
+                tmp_ofs = []
+            elif 0 < len_tmp <= 200:
+                draw(tmp_path[0], tmp_val[0:len_tmp], tmp_ofs[0:len_tmp])
+                tmp_path = []
+                tmp_val = []
+                tmp_ofs = []
+
+    
+            
+    
+    
 # 模式3：一次发送两个slope
 def BANDWIDTH():
     flag = False
@@ -28,11 +107,11 @@ def BANDWIDTH():
     slope_cyc = re.compile(r'cyclic=\d')
     slope_ofs = re.compile(r'offs=\d+')
     slope_ofs1 = re.compile(r'distance1=\d+')
-    with open(curv_path, 'r', encoding="utf-8") as f:
+    with open(slope_path, 'r', encoding="utf-8") as f:
         lir = f.readlines()
-
     lir_value = []
     lir_ofs = []
+    lir_path = []
     for i in range(len(lir)):
         if i == len(lir) - 1:
             break
@@ -49,32 +128,31 @@ def BANDWIDTH():
         path2 = str(slope_path_id.findall(lir[j]))
         path1 = int(re.sub(r'\D', "", path1))
         path2 = int(re.sub(r'\D', "", path2))
-
-
+        
+        #将value和offset和path加入列表
         lir_value.append(value)
         lir_ofs.append(offset)
+        lir_path.append(path1)
         if value1 != 0:
+            lir_path.append(path1)
             lir_value.append(value1)
             lir_ofs.append(offset1)
-        # if path1 != path2:
-        #     draw(path1, lir_value, lir_ofs)
-        #     lir_value = []
-        #     lir_ofs = []
+
     count = 0
-    # 根据offset画每一个curv点
-    # for x in range(len(lir_ofs)):
-    #     if x == len(lir_ofs) - 1:
-    #         break
-    #     y = x + 1
-    #     while lir_ofs[y] < lir_ofs[x]:
-    #         count = 1
-    #         lir_ofs[y] += count * 8191
-    #     count = 0
-    points_num = 100
-    times = int(len(lir_ofs) / points_num) + 1
-    for i in range(times):
-        s, e = i * points_num, (i + 1) * points_num
-        draw(path1, lir_value[s:e], lir_ofs[s:e])
+    len_ofs = len(lir_ofs)
+    len_val = len(lir_value)
+            
+    #将slope的offset递增
+    for x in range(len_ofs):
+        if x == len_ofs - 1:
+            break
+        y = x + 1
+        while lir_ofs[y] < lir_ofs[x]:
+            count = 1
+            lir_ofs[y] += count * 8191
+    pop_(lir_value, lir_ofs, lir_path) 
+
+
 
 
 # 模式2：备份发送
@@ -85,10 +163,11 @@ def ROBUSNESS():
     # slope_cyc = re.compile(r'cyclic=\d')
     slope_ofs = re.compile(r'offs=\d+')
 
-    with open(curv_path, 'r', encoding="utf-8") as f:
+    with open(slope_path, 'r', encoding="utf-8") as f:
         lir = f.readlines()
     lir_value = []
     lir_ofs = []
+    lir_path = []
     for i in range(len(lir)):
         if i == len(lir) - 1:
             break
@@ -101,27 +180,24 @@ def ROBUSNESS():
         path2 = str(slope_path_id.findall(lir[j]))
         path1 = int(re.sub(r'\D', "", path1))
         path2 = int(re.sub(r'\D', "", path2))
-        if value:
-            lir_value.append(value)
-            lir_ofs.append(offset)
-        if path1 != path2:
-            draw(path1, lir_value, lir_ofs)
-            lir_value = []
-            lir_ofs = []
+        #将value和offset和path加入列表
         lir_value.append(value)
         lir_ofs.append(offset)
-        x = len(lir_value)
-        if path1 != path2:
-            draw(path1, lir_value, x)
-            lir_value = []
-            lir_ofs = []
-    draw(path1, lir_value, x)
-
-
-def close_show():
-    plt.close()
+        lir_path.append(path1)
+    count = 0
+    len_ofs = len(lir_ofs)
+    len_val = len(lir_value)    
+    #将slope的offset递增
+    for x in range(len_ofs):
+        if x == len_ofs - 1:
+            break
+        y = x + 1
+        while lir_ofs[y] < lir_ofs[x]:
+            count = 1
+            lir_ofs[y] += count * 8191
+    pop_(lir_value, lir_ofs, lir_path) 
 
 
 if __name__ == '__main__':
-    BANDWIDTH()
-    # ROBUSNESS()
+#     BANDWIDTH()
+#     ROBUSNESS()
