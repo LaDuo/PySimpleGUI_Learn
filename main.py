@@ -314,15 +314,18 @@ if __name__ == "__main__":
             elif event in 'Show it':
                 if values[4]:
                     # 备份发送
-                    show_thread = threading.Thread(target=show_slope.ROBUSNESS, args=())
-                    show_thread.start()
+                    # show_thread = threading.Thread(target=show_slope.ROBUSNESS, args=())
+                    # show_thread.start()
+                    show_slope.ROBUSNESS()
                 elif values[5]:
                     # 一次发送两个
-                    show_thread = threading.Thread(target=show_slope.BANDWIDTH, args=())
-                    show_thread.start()
+                    # show_thread = threading.Thread(target=show_slope.BANDWIDTH, args=())
+                    # show_thread.start()
+                    show_slope.BANDWIDTH()
             # -------------------------------- Close show ------------------------------------
             elif event in 'Close show':
-                show_thread = threading.Thread(target=show_slope.close_show, args=())
+                # show_thread = threading.Thread(target=show_slope.close_show, args=())
+                print("nothing")
             # ----------------------------------- About --------------------------------------
             if event in 'About...':
                 sg.Popup(
