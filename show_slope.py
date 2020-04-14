@@ -198,6 +198,6 @@ def ROBUSNESS():
     pop_(lir_value, lir_ofs, lir_path) 
 
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
 #     BANDWIDTH()
 #     ROBUSNESS()

@@ -1,5 +1,5 @@
 from defi import Desktop
-from defi import slope_path, dis
+from defi import curv_path, dis
 import os
 import re
 import matplotlib.pyplot as plt
@@ -198,6 +198,6 @@ def ROBUSNESS():
     pop_(lir_value, lir_ofs, lir_path) 
 
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
 #     BANDWIDTH()
 #     ROBUSNESS()
